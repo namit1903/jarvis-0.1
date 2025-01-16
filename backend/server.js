@@ -1,8 +1,8 @@
-import app from "./app";
+import app from "./app.js";
 import "dotenv/config";
 import http from "http";
 // import { Server } from "socket.io";
-import jwt from jsonwebtoken;
+import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 
 
