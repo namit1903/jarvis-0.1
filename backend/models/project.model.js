@@ -11,7 +11,7 @@ const projectSchema = new mongoose.Schema({
         unique: [ true, 'Project name must be unique' ],
     },
 
-    users: [
+    users: [//array of users can collaborate to the project
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'user'
@@ -22,7 +22,7 @@ const projectSchema = new mongoose.Schema({
         default: {}
     },
 
-})
+},{timestamps:true})
 
 
 const Project = mongoose.model('project', projectSchema)
