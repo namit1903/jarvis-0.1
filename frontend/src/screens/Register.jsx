@@ -21,11 +21,13 @@ const Register = () => {
             email,
             password
         }).then((res) => {
+            console.log("register error")
             console.log(res.data)
             localStorage.setItem('token', res.data.token)
             setUser(res.data.user)
             navigate('/')
         }).catch((err) => {
+            // console.log("register error")
             console.log(err.response.data)
         })
     }

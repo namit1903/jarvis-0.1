@@ -31,7 +31,7 @@ const Project = () => {
     const [ isSidePanelOpen, setIsSidePanelOpen ] = useState(false)
     const [ isModalOpen, setIsModalOpen ] = useState(false)
     const [ selectedUserId, setSelectedUserId ] = useState(new Set()) // Initialized as Set
-    const [ project, setProject ] = useState(location.state.project)
+    const [ project, setProject ] = useState(location.state.project)//useNavigation hook is used to send state
     const [ message, setMessage ] = useState('')
     const { user } = useContext(UserContext)
     const messageBox = React.createRef()
@@ -90,24 +90,24 @@ const Project = () => {
 
     }
 
-    function WriteAiMessage(message) {
+    // function WriteAiMessage(message) {
 
-        const messageObject = JSON.parse(message)
+    //     const messageObject = JSON.parse(message)
 
-        return (
-            <div
-                className='overflow-auto bg-slate-950 text-white rounded-sm p-2'
-            >
-                <Markdown
-                    children={messageObject.text}
-                    options={{
-                        overrides: {
-                            code: SyntaxHighlightedCode,
-                        },
-                    }}
-                />
-            </div>)
-    }
+    //     return (
+    //         <div
+    //             className='overflow-auto bg-slate-950 text-white rounded-sm p-2'
+    //         >
+    //             <Markdown
+    //                 children={messageObject.text}
+    //                 options={{
+    //                     overrides: {
+    //                         code: SyntaxHighlightedCode,
+    //                     },
+    //                 }}
+    //             />
+    //         </div>)
+    // }
 
     useEffect(() => {
 

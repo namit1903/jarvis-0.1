@@ -1,24 +1,41 @@
-import React from 'react'
-import { Route, BrowserRouter, Routes } from 'react-router-dom'
-import Login from '../screens/Login'
-import Register from '../screens/Register'
-import Home from '../screens/Home'
-import Project from '../screens/Project'
-import UserAuth from '../auth/UserAuth'
+import React, { useContext, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { UserContext } from '../context/user.context'
 
-const AppRoutes = () => {
+const UserAuth = ({ children }) => {
+
+    const { user } = useContext(UserContext)
+    const [ loading, setLoading ] = useState(true)
+    const token = localStorage.getItem('token')
+    const navigate = useNavigate()
+
+
+
+
+    useEffect(() => {
+        if (user) {
+            setLoading(false)
+        }
+
+        if (!token) {
+            navigate('/login')
+        }
+
+        if (!user) {
+            navigate('/login')
+        }
+
+    }, [])
+
+    if (loading) {
+        return <div>Loading...</div>
+    }
+
+
     return (
-        <BrowserRouter>
-
-            <Routes>
-                <Route path="/" element={<UserAuth><Home /></UserAuth>} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="/project" element={<UserAuth><Project /></UserAuth>} />
-            </Routes>
-
-        </BrowserRouter>
+        <>
+            {children}</>
     )
 }
 
-export default AppRoutes
+export default UserAuth

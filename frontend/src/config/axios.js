@@ -1,5 +1,5 @@
 import axios from 'axios';
-import 'dotenv/config'
+// import 'dotenv/config'--> this created and issue
 //so as to prepend the baseURL to all requests, avoiding repetitive code
 const axiosInstance = axios.create({
     baseURL: import.meta.env.VITE_API_URL,
