@@ -5,7 +5,7 @@ import { Server } from 'socket.io';
 import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
 import projectModel from './models/project.model.js';
-// import { generateResult } from './services/ai.service.js';
+import { generateResult } from './services/ai.service.js';
 
 const port = process.env.PORT || 3000;
 //io is a server instance
@@ -75,30 +75,30 @@ io.on('connection', socket => {
 
         const message = data.message;
 
-       
+    //    console.log("message=>",message);
         socket.broadcast.to(socket.roomId).emit('project-message', data);
         // io.to(socket.roomId).emit('project-message', data);-->this will broadcast data to sender also
-        // const aiIsPresentInMessage = message.includes('@ai');
+        const aiIsPresentInMessage = message.includes('@ai');
 
-        // if (aiIsPresentInMessage) {
-
-
-        //     const prompt = message.replace('@ai', '');
-
-        //     const result = await generateResult(prompt);
+        if (aiIsPresentInMessage) {
 
 
-        //     io.to(socket.roomId).emit('project-message', {
-        //         message: result,
-        //         sender: {
-        //             _id: 'ai',
-        //             email: 'AI'
-        //         }
-        //     })
+            const prompt = message.replace('@ai', '');
+            console.log("message=>",message);
+            const result = await generateResult(prompt);
 
 
-        //     return
-        // }
+            io.to(socket.roomId).emit('project-message', {
+                message: result,
+                sender: {
+                    _id: 'ai',//this will help in UI to display ai response in frontend
+                    email: 'AI'
+                }
+            })
+
+
+            return
+        }
 
 
     })

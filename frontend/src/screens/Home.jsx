@@ -30,10 +30,13 @@ const Home = () => {
 
     useEffect(() => {
         axios.get('/projects/all').then((res) => {
+            
             setProject(res.data.projects)
+            console.log("here is project data",res.data.projects)
+            console.log(user)
 
         }).catch(err => {
-            console.log(err)
+            console.log("cannot get all projects in home",err)
         })
 
     }, [])

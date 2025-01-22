@@ -23,7 +23,10 @@ const Login = () => {
         }).then((res) => {
             console.log(res.data)
 
-            localStorage.setItem('token', res.data.token)
+            sessionStorage.setItem('token', res.data.token)
+            // localStorage.setItem('token', res.data.token)
+            console.log("token is stored in local storage")
+            sessionStorage.setItem('user',JSON.stringify(res.data.user))
             setUser(res.data.user)
 
             navigate('/')

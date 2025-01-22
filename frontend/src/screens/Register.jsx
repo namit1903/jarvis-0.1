@@ -23,6 +23,7 @@ const Register = () => {
         }).then((res) => {
             console.log("register error")
             console.log(res.data)
+            sessionStorage.setItem('token', res.data.token)
             localStorage.setItem('token', res.data.token)
             setUser(res.data.user)
             navigate('/')

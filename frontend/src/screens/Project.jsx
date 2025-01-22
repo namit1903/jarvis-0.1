@@ -3,8 +3,8 @@ import { UserContext } from '../context/user.context'
 import { useNavigate, useLocation } from 'react-router-dom'
 import axios from '../config/axios'
 import { initializeSocket, receiveMessage, sendMessage } from '../config/socket'
-// import Markdown from 'markdown-to-jsx'
-// import hljs from 'highlight.js';
+import Markdown from 'markdown-to-jsx'
+import hljs from 'highlight.js';
 // import { getWebContainer } from '../config/webcontainer'
 
 
@@ -90,29 +90,31 @@ const Project = () => {
 
     }
 
-    // function WriteAiMessage(message) {
+    function WriteAiMessage(message) {
 
-    //     const messageObject = JSON.parse(message)
+        const messageObject = JSON.parse(message)
 
-    //     return (
-    //         <div
-    //             className='overflow-auto bg-slate-950 text-white rounded-sm p-2'
-    //         >
-    //             <Markdown
-    //                 children={messageObject.text}
-    //                 options={{
-    //                     overrides: {
-    //                         code: SyntaxHighlightedCode,
-    //                     },
-    //                 }}
-    //             />
-    //         </div>)
-    // }
+        return (
+            <div
+                className='overflow-auto bg-slate-950 text-white rounded-sm p-2'
+            >
+                <Markdown
+                    children={messageObject.text}
+                    options={{
+                        overrides: {
+                            code: SyntaxHighlightedCode,
+                        },
+                    }}
+                />
+            </div>)
+    }
 
     useEffect(() => {
 
         initializeSocket(project._id)
-
+        // if (shouldScrollToBottom.current) {
+        //     scrollToBottom();  // Scroll to the bottom on new messages
+        // }
         // if (!webContainer) {
         //     getWebContainer().then(container => {
         //         setWebContainer(container)
@@ -125,12 +127,12 @@ const Project = () => {
 
             console.log(data)
             
-            if (data.sender._id == 'ai') {
+            if (data.sender._id ==='ai') {
 
-
+                console.log("msg received. ",data)
                 const message = JSON.parse(data.message)
 
-                console.log(message)
+                console.log("msg received ",message)
 
                 // webContainer?.mount(message.fileTree)
 
@@ -163,6 +165,12 @@ const Project = () => {
             console.log(err)
 
         })
+          // Cleanup function
+  return () => {
+    socket.disconnect();  // Close the socket connection (assuming disconnect method exists)
+    console.log("diconnected socket as component unmounts")
+    removeMessageListener('project-message', handleMessage);  // Remove message listener
+  };
 
     }, [])
 
@@ -180,9 +188,17 @@ const Project = () => {
 
     // Removed appendIncomingMessage and appendOutgoingMessage functions
 
-    function scrollToBottom() {
-        messageBox.current.scrollTop = messageBox.current.scrollHeight
-    }
+    // function scrollToBottom() {
+    //     messageBox.current.scrollTop = messageBox.current.scrollHeight
+        
+    // }
+    // function handleUserScroll() {
+    //     const element = messageBox.current;
+    //     if (element) {
+    //         const isAtBottom = element.scrollHeight - element.scrollTop === element.clientHeight;
+    //         shouldScrollToBottom.current = isAtBottom;  // Update flag based on position
+    //     }
+    // }
 
     return (
         <main className='h-screen w-screen flex'>
@@ -200,7 +216,7 @@ const Project = () => {
 
                     <div
                         ref={messageBox}
-                        className="message-box p-1 flex-grow flex flex-col gap-1 overflow-auto max-h-full scrollbar-hide">
+                        className="message-box p-1 flex-grow flex flex-col gap-1 overflow-auto max-h-full scrollbar-hide"  >
                         {messages.map((msg, index) => (
                             <div key={index} className={`${msg.sender._id === 'ai' ? 'max-w-80' : 'max-w-52'} ${msg.sender._id == user._id.toString() && 'ml-auto'}  message flex flex-col p-2 bg-slate-50 w-fit rounded-md`}>
                                 <small className='opacity-65 text-xs'>{msg.sender.email}</small>
@@ -238,7 +254,7 @@ const Project = () => {
                     </header>
                     <div className="users flex flex-col gap-2">
 
-                        {project.users && project.users.map(user => {
+                        {project.users?.map(user => {
 
 
                             return (

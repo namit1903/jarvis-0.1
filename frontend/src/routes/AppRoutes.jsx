@@ -6,8 +6,11 @@ import Home from '../screens/Home'
 import Project from '../screens/Project'
 import UserAuth from '../auth/UserAuth'
 
+import { UserContext,UserProvider } from '../context/user.context'
+
 const AppRoutes = () => {
     return (
+        <UserProvider>
         <BrowserRouter>
 
             <Routes>
@@ -18,6 +21,7 @@ const AppRoutes = () => {
             </Routes>
 
         </BrowserRouter>
+        </UserProvider>
     )
 }
 
