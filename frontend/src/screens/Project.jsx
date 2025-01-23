@@ -2,10 +2,10 @@ import React, { useState, useEffect, useContext, useRef } from 'react'
 import { UserContext } from '../context/user.context'
 import { useNavigate, useLocation } from 'react-router-dom'
 import axios from '../config/axios'
-import { initializeSocket, receiveMessage, sendMessage } from '../config/socket'
+import { initializeSocket, receiveMessage, sendMessage } from '../config/socket.js'
 import Markdown from 'markdown-to-jsx'
 import hljs from 'highlight.js';
-// import { getWebContainer } from '../config/webcontainer'
+import { getWebContainer } from '../config/webcontainer'
 
 
 function SyntaxHighlightedCode(props) {
@@ -91,8 +91,11 @@ const Project = () => {
     }
 
     function WriteAiMessage(message) {
-
-        const messageObject = JSON.parse(message)
+        // console.log("message by ai=>",message)//this is the message given by ai
+        const messageObject = JSON.parse(message);
+        
+        // console.log("message to ai=>",messageObject)//converted msg into object
+      
 
         return (
             <div
@@ -115,17 +118,17 @@ const Project = () => {
         // if (shouldScrollToBottom.current) {
         //     scrollToBottom();  // Scroll to the bottom on new messages
         // }
-        // if (!webContainer) {
-        //     getWebContainer().then(container => {
-        //         setWebContainer(container)
-        //         console.log("container started")
-        //     })
-        // }
+        if (!webContainer) {
+            getWebContainer().then(container => {
+                setWebContainer(container)
+                console.log("container started")
+            })
+        }
 
 
         receiveMessage('project-message', data => {
 
-            console.log(data)
+            // console.log(data)
             
             if (data.sender._id ==='ai') {
 
@@ -134,11 +137,11 @@ const Project = () => {
 
                 console.log("msg received ",message)
 
-                // webContainer?.mount(message.fileTree)
+                webContainer?.mount(message.fileTree)//mount file tree
 
-                // if (message.fileTree) {
-                //     setFileTree(message.fileTree || {})
-                // }
+                if (message.fileTree) {
+                    setFileTree(message.fileTree || {})
+                }
                 setMessages(prevMessages => [ ...prevMessages, data ]) // Update messages state
             } else {
 
@@ -165,12 +168,12 @@ const Project = () => {
             console.log(err)
 
         })
-          // Cleanup function
-  return () => {
-    socket.disconnect();  // Close the socket connection (assuming disconnect method exists)
-    console.log("diconnected socket as component unmounts")
-    removeMessageListener('project-message', handleMessage);  // Remove message listener
-  };
+//           // Cleanup function
+//   return () => {
+//     socket.disconnect();  // Close the socket connection (assuming disconnect method exists)
+//     console.log("diconnected socket as component unmounts")
+//     removeMessageListener('project-message', handleMessage);  // Remove message listener
+//   };
 
     }, [])
 
@@ -271,7 +274,7 @@ const Project = () => {
                     </div>
                 </div>
             </section>
-            {/*  
+             
 
             <section className="right  bg-red-50 flex-grow h-full flex">
 
@@ -322,20 +325,21 @@ const Project = () => {
                                     await webContainer.mount(fileTree)
 
 
+                                    //first install then run 
                                     const installProcess = await webContainer.spawn("npm", [ "install" ])
 
 
 
-                                    installProcess.output.pipeTo(new WritableStream({
+                                    installProcess.output.pipeTo(new WritableStream({//output returns a stream so we have to pipe it?
                                         write(chunk) {
                                             console.log(chunk)
                                         }
                                     }))
 
                                     if (runProcess) {
-                                        runProcess.kill()
+                                        runProcess.kill()//first kill all processes
                                     }
-
+                                    //then run the current process
                                     let tempRunProcess = await webContainer.spawn("npm", [ "start" ]);
 
                                     tempRunProcess.output.pipeTo(new WritableStream({
@@ -411,7 +415,7 @@ const Project = () => {
 
 
             </section>
-*/}
+
             {isModalOpen && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
                     <div className="bg-white p-4 rounded-md w-96 max-w-full relative">

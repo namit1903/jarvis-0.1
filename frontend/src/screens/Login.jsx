@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from '../config/axios'
 import { UserContext } from '../context/user.context'
+import Cookies from 'js-cookie'
 
 const Login = () => {
 
@@ -21,12 +22,18 @@ const Login = () => {
             email,
             password
         }).then((res) => {
-            console.log(res.data)
+            console.log("token is created and response is received",res.data)
 
             sessionStorage.setItem('token', res.data.token)
             // localStorage.setItem('token', res.data.token)
-            console.log("token is stored in local storage")
+            console.log("token is stored in session storage")
+            
             sessionStorage.setItem('user',JSON.stringify(res.data.user))
+            // Store token and user data in cookies
+            Cookies.set('token', res.data.token, { expires: 1,  sameSite: 'Strict' })
+            // Cookies.set('token', res.data.token, { expires: 1, secure: true, sameSite: 'Strict' })
+            Cookies.set('user', JSON.stringify(res.data.user), { expires: 1, secure: true, sameSite: 'Strict' })
+            console.log("Token and user are stored in cookies")
             setUser(res.data.user)
 
             navigate('/')
@@ -51,6 +58,7 @@ const Login = () => {
                             id="email"
                             className="w-full p-3 rounded bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                             placeholder="Enter your email"
+                              autoComplete="email"
                         />
                     </div>
                     <div className="mb-6">
@@ -61,6 +69,7 @@ const Login = () => {
                             id="password"
                             className="w-full p-3 rounded bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                             placeholder="Enter your password"
+                             autoComplete="current-password"
                         />
                     </div>
                     <button

@@ -27,19 +27,33 @@ const Home = () => {
                 console.log(error)
             })
     }
-
+const [token,setToken]=useState("");
     useEffect(() => {
-        axios.get('/projects/all').then((res) => {
-            
-            setProject(res.data.projects)
-            console.log("here is project data",res.data.projects)
-            console.log(user)
+        const fetchProjects = async () => {
+            try {
+                // Fetch user data from cookies or context
+                // Example: const user = JSON.parse(Cookies.get('user'));
+                console.log(user); // This will print the user if it has been set
+                const storedToken = localStorage.getItem('token') || document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, "$1");
+                console.log("checking token in cookies",storedToken)
+        setToken(storedToken);
+        if(storedToken){
+                const res = await axios.get('/projects/all', {
+                    headers: {
+                        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+                    },
+                })
+                setProject(res.data.projects)
+                console.log("Here is project data", res.data.projects)
+        }
+            } catch (err) {
+                console.log("Cannot get all projects in HOME", err)
+            }
+        
+        }
 
-        }).catch(err => {
-            console.log("cannot get all projects in home",err)
-        })
-
-    }, [])
+        fetchProjects()
+    }, []) // Empty dependency array ensures this runs once when component mounts
 
     return (
         <main className='p-4'>

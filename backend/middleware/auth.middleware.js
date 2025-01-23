@@ -4,6 +4,7 @@ import redisClient from "../services/redis.service.js";
 
 export const authUser = async (req, res, next) => {
     try {
+        // const token = req.cookies.token ;//this not extracting cookies data
         const token = req.cookies.token || req.headers.authorization.split(' ')[ 1 ];
         console.log("here is your token",token);
         if (!token) {
@@ -16,7 +17,7 @@ export const authUser = async (req, res, next) => {
 
             res.cookie('token', '');//empty token value in cookie
 
-            return res.status(401).send({ error: 'Unauthorized User' });
+            return res.status(401).send({ error: 'Unauthorized User !!' });
         }
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -26,6 +27,6 @@ export const authUser = async (req, res, next) => {
 
         console.log(error);
 
-        res.status(401).send({ error: 'Unauthorized User' });
+        res.status(401).send({ error: 'Unauthorized User:catch' });
     }
 }

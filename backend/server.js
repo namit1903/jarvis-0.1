@@ -7,7 +7,7 @@ import mongoose from 'mongoose';
 import projectModel from './models/project.model.js';
 import { generateResult } from './services/ai.service.js';
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 //io is a server instance
 //whiel socket is a connection instance between client and server
 //each connected client gets a unique socket instance
@@ -30,6 +30,7 @@ io.use(async (socket, next) => {//socket is automatically provided by Socket.IO 
         // when establishing a WebSocket connection with the server.It contains metadata about the connection, such as headers, query parameters, cookies, and other connection details
         const token = socket.handshake.auth?.token || socket.handshake.headers.authorization?.split(' ')[ 1 ];
         const projectId = socket.handshake.query.projectId;
+        console.log("socket middleware");
 
         if (!mongoose.Types.ObjectId.isValid(projectId)) {
             return next(new Error('Invalid projectId->aisa koi project exist nahi krta'));
@@ -52,6 +53,8 @@ io.use(async (socket, next) => {//socket is automatically provided by Socket.IO 
 
         socket.user = decoded;
 
+        console.log("socket middleware user:",decoded)
+
         next();
 
     } catch (error) {
@@ -62,7 +65,8 @@ io.use(async (socket, next) => {//socket is automatically provided by Socket.IO 
 
 
 io.on('connection', socket => {
-    socket.roomId = socket.project._id.toString()
+    socket.roomId = socket.project._id.toString();
+    console.log(socket.roomId)
 
 
     console.log('a user connected');
@@ -75,7 +79,7 @@ io.on('connection', socket => {
 
         const message = data.message;
 
-    //    console.log("message=>",message);
+    //    console.log("message by user=>",message);
         socket.broadcast.to(socket.roomId).emit('project-message', data);
         // io.to(socket.roomId).emit('project-message', data);-->this will broadcast data to sender also
         const aiIsPresentInMessage = message.includes('@ai');
@@ -84,7 +88,7 @@ io.on('connection', socket => {
 
 
             const prompt = message.replace('@ai', '');
-            console.log("message=>",message);
+            console.log("message by ai=>",message);
             const result = await generateResult(prompt);
 
 

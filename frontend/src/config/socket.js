@@ -1,28 +1,64 @@
+// 
 import socket from 'socket.io-client';
-
 
 let socketInstance = null;
 
-
+// Initialize Socket Connection
 export const initializeSocket = (projectId) => {
-//create a socket instance
+    // Ensure VITE_API_URL is available and valid
+    if (!import.meta.env.VITE_API_URL) {
+        throw new Error('VITE_API_URL is not defined in the environment variables');
+    }
+
     socketInstance = socket(import.meta.env.VITE_API_URL, {
-        auth: {//then in the server side it is accesed using socket.handshake.auth
-            token: localStorage.getItem('token')
+        auth: {
+            token: sessionStorage.getItem('token') // Ensure the token is present
         },
         query: {
-            projectId//then in the server side it is accesed using socket.handshake.query
+            projectId // The query is passed to the server
         }
     });
 
+    // Event for successful connection
+    socketInstance.on('connect', () => {
+        console.log('Socket connected:', socketInstance.id);
+    });
+
+    // Handle connection errors
+    socketInstance.on('connect_error', (err) => {
+        console.error('Socket connection error:', err);
+    });
+
+    // Handle disconnection
+    socketInstance.on('disconnect', () => {
+        console.log('Socket disconnected');
+    });
+
     return socketInstance;
+};
 
-}
-
+// Listen for messages from the server
 export const receiveMessage = (eventName, cb) => {
-    socketInstance.on(eventName, cb);
-}
+    if (socketInstance) {
+        socketInstance.on(eventName, cb);
+    } else {
+        console.warn('Socket not initialized');
+    }
+};
 
+// Send messages to the server
 export const sendMessage = (eventName, data) => {
-    socketInstance.emit(eventName, data);
-}
+    if (socketInstance) {
+        socketInstance.emit(eventName, data);
+    } else {
+        console.warn('Socket not initialized');
+    }
+};
+
+// Optional: Clean up socket when no longer needed
+export const closeSocket = () => {
+    if (socketInstance) {
+        socketInstance.disconnect();
+        socketInstance = null;
+    }
+};

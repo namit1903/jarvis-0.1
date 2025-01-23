@@ -4,6 +4,7 @@ import { UserContext } from '../context/user.context'
 
 const UserAuth = ({ children }) => {
     const user = sessionStorage.getItem('user')
+    const { setUser } = useContext(UserContext)
     // const { user } = useContext(UserContext)
     console.log("authentication",user)
     const [ loading, setLoading ] = useState(true)
@@ -19,6 +20,8 @@ const UserAuth = ({ children }) => {
     useEffect(() => {
         if (user) {
             setLoading(false)
+            setUser(user);
+            console.log("set user in Context")
         }
         // if (token) {
         //     setLoading(false)
