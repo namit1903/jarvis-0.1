@@ -1,2 +1,38 @@
-node_modules
+# Node modules
+/node_modules/
+
+# Logs
+*.log
+logs/
+
+# Environment variables
 .env
+
+# Dependency directories (e.g., for Yarn, if using it)
+.yarn/
+.pnp/
+.yarn-cache/
+
+# Build output
+/dist/
+/build/
+
+# Test coverage output
+/coverage/
+
+# Temporary files
+*.swp
+*.swo
+
+# Mac system files (if developing on macOS)
+.DS_Store
+
+# IDE settings (if using VSCode, for example)
+.vscode/
+
+# NPM package-lock or Yarn lock files (if you want to ignore them)
+# package-lock.json
+# yarn.lock
+
+# Optional: if using TypeScript, ignore compiled files
+*.tsbuildinfo
