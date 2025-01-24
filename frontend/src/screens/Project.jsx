@@ -321,7 +321,8 @@ const Project = () => {
 
                         <div className="actions flex gap-2">
                             <button
-                                onClick={async () => {
+                                onClick={async () => 
+                                    {
                                     await webContainer.mount(fileTree)
 
 
