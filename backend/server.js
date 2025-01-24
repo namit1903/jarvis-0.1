@@ -16,7 +16,7 @@ const port = process.env.PORT || 5000;
 const server = http.createServer(app);//created http server
 const io = new Server(server, {//http server instance is passed as argument to 
     cors: {
-        origin: '*'
+        origin: 'https://jarvis-0-1-3ewj.vercel.app/login'
     }
 });
 //io is an instance of socket.io which will be used to manage websocket connections.

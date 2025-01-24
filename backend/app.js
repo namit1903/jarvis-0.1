@@ -14,7 +14,8 @@ const stream = {
     console.log(`Morgan log: ${message.trim()}`); // Trim removes extra newlines
   },
 };
-app.use(cors());
+// app.use(cors());
+app.use(cors({ origin: "https://jarvis-0-1-3ewj.vercel.app", credentials: true }));
 app.use(morgan('dev'));
 // app.use(morgan('combined', { stream }));
 app.use(express.json());

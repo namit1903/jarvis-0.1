@@ -28,7 +28,7 @@ const Register = () => {
             setUser(res.data.user)
             navigate('/')
         }).catch((err) => {
-            // console.log("register error")
+            console.log("register error")
             console.log(err.response.data)
         })
     }
