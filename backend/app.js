@@ -27,6 +27,10 @@ app.use(cookieParser());
 app.use('/users', userRoutes);
 app.use('/projects', projectRoutes);
 app.use("/ai", aiRoutes)
+// Catch-all route to serve index.html for unknown routes
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client/build", "index.html"));
+});
 
 app.get('/',(req,res)=>{
   console.log("we are HOME");
