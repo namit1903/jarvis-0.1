@@ -81,6 +81,7 @@ const Project = () => {
     }
 
     const send = () => {
+        console.log("send function")
 
         sendMessage('project-message', {
             message,
@@ -114,6 +115,8 @@ const Project = () => {
     }
 
     useEffect(() => {
+
+        console.log("user inproject.jsx",user);
 
         initializeSocket(project._id)
         // if (shouldScrollToBottom.current) {
@@ -210,7 +213,12 @@ const Project = () => {
     //         shouldScrollToBottom.current = isAtBottom;  // Update flag based on position
     //     }
     // }
-
+    // useEffect(() => {
+    //     if (!user) {
+    //       fetchUser(); // Call function to fetch user
+    //     }
+    //   }, [user]);
+      
     return (
         <main className='h-screen w-screen flex'>
             <section className="left relative flex flex-col h-screen min-w-96 bg-slate-300">
@@ -229,7 +237,8 @@ const Project = () => {
                         ref={messageBox}
                         className="message-box p-1 flex-grow flex flex-col gap-1 overflow-auto max-h-full scrollbar-hide"  >
                         {messages.map((msg, index) => (
-                            <div key={index} className={`${msg.sender._id === 'ai' ? 'max-w-80' : 'max-w-52'} ${msg.sender._id == user._id.toString() && 'ml-auto'}  message flex flex-col p-2 bg-slate-50 w-fit rounded-md`}>
+                            <div key={index} className={`${msg.sender._id === 'ai' ? 'max-w-80' : 'max-w-52'} ${msg.sender._id === user?._id?.toString() ? 'ml-auto' : ''}
+  message flex flex-col p-2 bg-slate-50 w-fit rounded-md`}>
                                 <small className='opacity-65 text-xs'>{msg.sender.email}</small>
                                 <div className='text-sm'>
                                     {msg.sender._id === 'ai' ?
