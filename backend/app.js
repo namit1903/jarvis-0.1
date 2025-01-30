@@ -15,7 +15,8 @@ const stream = {
   },
 };
 // app.use(cors());
-app.use(cors({ origin: "https://jarvis-0-1-3ewj.vercel.app", credentials: true }));
+app.use(cors({ origin: "https://jarvis-0-1-3ewj.vercel.app", credentials: true, methods: "GET,POST,PUT,DELETE",
+  allowedHeaders: "Content-Type,Authorization" }));
 app.use(morgan('dev'));
 // app.use(morgan('combined', { stream }));
 app.use(express.json());
