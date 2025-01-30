@@ -31,7 +31,7 @@ userSchema.methods.isValidPassword = async function (password) {
     return await bcrypt.compare(password, this.password);
 }
 
-userSchema.methods.generateJWT = function () {
+userSchema.methods.generateJWT = function () {//do not use arrow function beacause it won't bind 'this ' properly
     return jwt.sign(
         { email: this.email },//this pointing to the usermodel(user stored in database)
         process.env.JWT_SECRET,
