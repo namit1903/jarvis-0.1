@@ -21,7 +21,7 @@ const Register = () => {
             email,
             password
         }).then((res) => {
-            console.log("register error")
+            console.log("registered successfully")
             console.log(res.data)
             sessionStorage.setItem('token', res.data.token)
             localStorage.setItem('token', res.data.token)

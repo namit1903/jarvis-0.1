@@ -1,51 +1,34 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { UserContext } from '../context/user.context'
+import React, { useContext, useLayoutEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../context/user.context';
 
 const UserAuth = ({ children }) => {
-    const user = sessionStorage.getItem('user')
-    const { setUser } = useContext(UserContext)
-    // const { user } = useContext(UserContext)
-    console.log("authentication",user)
-    const [ loading, setLoading ] = useState(true)
-    const token = sessionStorage.getItem('token')
-    // const token = localStorage.getItem('token')
-    console.log("token",token)
-    
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const { setUser } = useContext(UserContext);
+    const [loading, setLoading] = useState(true);
 
+    useLayoutEffect(() => {
+        setTimeout(() => {
+            const user = sessionStorage.getItem('user');
+            const token = sessionStorage.getItem('token');
 
+            console.log("Authentication Check - User:", user);
+            console.log("Authentication Check - Token:", token);
 
-
-    useEffect(() => {
-        if (user) {
-            setLoading(false)
-            setUser(user);
-            console.log("set user in Context")
-        }
-        // if (token) {
-        //     setLoading(false)
-        // }
-
-        if (!token) {
-            navigate('/login')
-        }
-
-        // if (!user) {
-        //     navigate('/login')
-        // }
-
-    }, [])
+            if (token) {
+                setUser(user);
+                setLoading(false);
+            } else {
+                navigate('/login');
+            }
+        }, 100); // Small delay to ensure sessionStorage is updated
+    }, []);
 
     if (loading) {
-        return <div>Loading...</div>
+        return <div>Loading...</div>;
     }
 
+    return <>{children}</>;
+};
 
-    return (
-        <>
-            {children}</>
-    )
-}
-
-export default UserAuth
+export default UserAuth;
