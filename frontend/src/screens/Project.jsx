@@ -11,7 +11,7 @@ import { getWebContainer } from '../config/webcontainer'
 function SyntaxHighlightedCode(props) {
     const ref = useRef(null)
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (ref.current && props.className?.includes('lang-') && window.hljs) {
             window.hljs.highlightElement(ref.current)
 
@@ -31,7 +31,8 @@ const Project = () => {
     const [ isSidePanelOpen, setIsSidePanelOpen ] = useState(false)
     const [ isModalOpen, setIsModalOpen ] = useState(false)
     const [ selectedUserId, setSelectedUserId ] = useState(new Set()) // Initialized as Set
-    const [ project, setProject ] = useState(location.state.project)//useNavigation hook is used to send state
+    const storedProject = JSON.parse(sessionStorage.getItem('project')) || location.state?.project || null;
+    const [project, setProject] = useState(storedProject);//useNavigation hook is used to send state->priject data
     const [ message, setMessage ] = useState('')
     const { user } = useContext(UserContext)
     const messageBox = React.createRef()
@@ -176,6 +177,13 @@ const Project = () => {
 //   };
 
     }, [])
+    useEffect(() => {
+        if (project) {
+          // Store project in sessionStorage for persistence
+          sessionStorage.setItem('project', JSON.stringify(project));
+          initializeSocket(project._id);
+        }
+      }, [project]);
 
     function saveFileTree(ft) {
         axios.put('/projects/update-file-tree', {

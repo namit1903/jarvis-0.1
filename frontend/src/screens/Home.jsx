@@ -98,7 +98,9 @@ const Home = () => {
                 {projects.map((project) => (
                     <motion.div 
                         key={project._id}
-                        onClick={() => navigate(`/project`, { state: { project } })}
+                        onClick={() => {
+                            sessionStorage.setItem('project', JSON.stringify(project));//so that reload won't affect page
+                            navigate(`/project`, { state: { project } })}}
                         className="flex flex-col gap-2 cursor-pointer p-4 border border-slate-300 rounded-md hover:bg-slate-200 transition-all"
                         whileHover={{ scale: 1.03 }}
                         whileTap={{ scale: 0.97 }}
