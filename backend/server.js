@@ -16,7 +16,7 @@ const port = process.env.PORT || 5000;
 const server = http.createServer(app);//created http server
 const io = new Server(server, {//http server instance is passed as argument to 
     cors: {
-        origin: 'https://jarvis-0-1-3ewj.vercel.app/login',
+        origin: 'https://jarvis-0-1-3ewj.vercel.app/',
         methods: ["GET", "POST"],
         credentials: true
     }
