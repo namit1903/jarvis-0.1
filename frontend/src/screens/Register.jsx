@@ -41,7 +41,7 @@ const Register = () => {
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.8 }}
             >
-                <h2 className="text-3xl font-extrabold text-white mb-6 text-center">AI Chat Registration</h2>
+                <h2 className="text-3xl font-extrabold text-white mb-6 text-center">Registration</h2>
 
                 {/* Animated Chatbot Icon (using CSS animation) */}
                 <div className="flex justify-center mb-6">
