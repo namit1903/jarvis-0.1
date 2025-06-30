@@ -119,6 +119,8 @@ const Project = () => {
         console.log("user inproject.jsx",user);
 
         initializeSocket(project._id)
+
+
         // if (shouldScrollToBottom.current) {
         //     scrollToBottom();  // Scroll to the bottom on new messages
         // }
@@ -187,7 +189,7 @@ const Project = () => {
           initializeSocket(project._id);
         }
       }, [project]);
-
+    
     function saveFileTree(ft) {
         axios.put('/projects/update-file-tree', {
             projectId: project._id,
@@ -225,7 +227,7 @@ const Project = () => {
                 <header className='flex justify-between items-center p-2 px-4 w-full bg-slate-100 absolute z-10 top-0'>
                     <button className='flex gap-2' onClick={() => setIsModalOpen(true)}>
                         <i className="ri-add-fill mr-1"></i>
-                        <p>Add collaborator</p>
+                        <p>Add Members</p>
                     </button>
                     <button onClick={() => setIsSidePanelOpen(!isSidePanelOpen)} className='p-2'>
                         <i className="ri-group-fill"></i>
@@ -253,7 +255,7 @@ const Project = () => {
                         <input
                             value={message}
                             onChange={(e) => setMessage(e.target.value)}
-                            className='p-2 px-4 border-none outline-none flex-grow' type="text" placeholder='Enter message' />
+                            className='p-2 px-3 h-20 border-none outline-none flex-grow' type="text" placeholder='Type message / Type @ai <talk to Gemini>' />
                         <button
                             onClick={send}
                             className='px-5 bg-slate-950 text-white'><i className="ri-send-plane-fill"></i></button>
@@ -266,7 +268,7 @@ const Project = () => {
 
                         <h1
                             className='font-semibold text-lg'
-                        >Collaborators</h1>
+                        >Members</h1>
 
                         <button onClick={() => setIsSidePanelOpen(!isSidePanelOpen)} className='p-2'>
                             <i className="ri-close-fill"></i>
@@ -456,7 +458,7 @@ const Project = () => {
                         <button
                             onClick={addCollaborators}
                             className='absolute bottom-4 left-1/2 transform -translate-x-1/2 px-4 py-2 bg-blue-600 text-white rounded-md'>
-                            Add Collaborators
+                            Add Members
                         </button>
                     </div>
                 </div>

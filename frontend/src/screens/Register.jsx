@@ -12,7 +12,8 @@ const Register = () => {
 
     function submitHandler(e) {
         e.preventDefault();
-
+        console.log("email:",email)
+        console.log("password:",password)
         axios.post('/users/register', { email, password })
             .then((res) => {
                 console.log("registered successfully");
@@ -24,7 +25,7 @@ const Register = () => {
             })
             .catch((err) => {
                 console.log("register error");
-                console.log(err.response.data);
+                console.log(err.response);
             });
     }
 

@@ -3,7 +3,7 @@ import AppRoutes from './routes/AppRoutes'
 import { UserProvider } from './context/user.context'
 
 const App = () => {
-  console.log("hiii")
+  console.log("i'm in the APP")
   return (
     <UserProvider>
       <AppRoutes />

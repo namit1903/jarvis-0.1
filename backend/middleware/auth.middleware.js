@@ -5,6 +5,8 @@ import redisClient from "../services/redis.service.js";
 export const authUser = async (req, res, next) => {
     try {
         // const token = req.cookies.token ;//this not extracting cookies data
+        console.log("Authorization header raw:", req.headers.authorization);
+console.log("Cookies:", req.cookies);
         const token = req.cookies.token || req.headers.authorization.split(' ')[ 1 ];
         console.log("here is your token",token);
         if (!token) {

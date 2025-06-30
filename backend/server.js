@@ -91,7 +91,7 @@ io.on('connection', socket => {
 
             const prompt = message.replace('@ai', '');
             console.log("message by ai=>",message);
-            const result = await generateResult(prompt);
+            const result = await generateResult(prompt);//sent to LLM model for processing
 
 
             io.to(socket.roomId).emit('project-message', {

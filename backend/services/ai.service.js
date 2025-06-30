@@ -8,7 +8,7 @@ const model = genAI.getGenerativeModel({//The getGenerativeModel method is calle
         responseMimeType: "application/json",//MIME types (Multipurpose Internet Mail Extensions) t
         // responseMimeType is typically a property used to specify the format or type of data that the API should return in its response.
 
-        temperature: 0.4,
+        temperature: 0.4,//randomness of responses
     },
 
     // below is a detailed set of instructions for the AI, describing the model's role, expertise, and behavior. 

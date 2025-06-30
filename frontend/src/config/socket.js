@@ -62,3 +62,8 @@ export const closeSocket = () => {
         socketInstance = null;
     }
 };
+export const removeMessageListener = (eventName, cb) => {
+  if (socketInstance) {
+    socketInstance.off(eventName, cb);
+  }
+};
