@@ -52,7 +52,8 @@ const Login = () => {
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.8 }}
             >
-                <h2 className="text-3xl font-extrabold text-white mb-6 text-center">AI Chat Login</h2>
+                <h2 className="text-3xl font-extrabold text-white mb-1 text-center">Chat App</h2>
+                <h5 className="text font-bold text-white mb-6 text-center">powered with Ai</h5>
                 
                 {/* Lottie Chat Bot Animation */}
                 <div className="flex justify-center mb-6">
