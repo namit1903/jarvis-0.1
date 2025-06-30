@@ -17,7 +17,13 @@ const Home = () => {
         axios.post('/projects/create', { name: projectName })
             .then((res) => {
                 setIsModalOpen(false);
-                setProjects((prev) => [...prev, res.data.project]);
+                // setProjects((prev) => [...prev, res.data.project]);
+                if (res.data.project) {
+  setProjects((prev) => [...prev, res.data.project]);
+} else {
+  console.warn('Invalid project response:', res.data);
+}
+
             })
             .catch((error) => console.log(error));
     }
@@ -43,7 +49,9 @@ const Home = () => {
                     const res = await axios.get('/projects/all', {
                         headers: { Authorization: `Bearer ${storedToken}` }
                     });
-                    setProjects(res.data.projects);
+                    // setProjects(res.data.projects);
+                    setProjects(Array.isArray(res.data.projects) ? res.data.projects : []);
+
                 }
             } catch (err) {
                 console.log('Cannot get all projects in HOME', err);
@@ -95,7 +103,8 @@ const Home = () => {
                     New Chatroom <i className="ri-add-line ml-2"></i>
                 </motion.button>
 
-                {projects.map((project) => (
+                {/* {projects.map((project) => ( */}
+                {projects.filter(Boolean).map((project) => (
                     <motion.div 
                         key={project._id}
                         onClick={() => {
@@ -105,8 +114,11 @@ const Home = () => {
                         whileHover={{ scale: 1.03 }}
                         whileTap={{ scale: 0.97 }}
                     >
-                        <h2 className='font-semibold'>{project.name}</h2>
-                        <p className="text-sm text-gray-600">Collaborators: {project.users.length}</p>
+                        {/* <h2 className='font-semibold'>{project.name}</h2>
+                        <p className="text-sm text-gray-600">Collaborators: {project.users.length}</p> */}
+                        <h2 className='font-semibold'>{project?.name || 'Unnamed'}</h2>
+<p className="text-sm text-gray-600">Collaborators: {project?.users?.length ?? 0}</p>
+
                     </motion.div>
                 ))}
             </div>
